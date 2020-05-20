@@ -5,57 +5,55 @@ MAINTAINER ngineered <support@ngineered.co.uk>
 ENV php_conf /etc/php7/php.ini 
 ENV fpm_conf /etc/php7/php-fpm.d/www.conf
 
-RUN echo http://nl.alpinelinux.org/alpine/edge/main > /etc/apk/repositories && \
-    echo http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
-    echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-    echo /etc/apk/respositories && \
+RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
+    echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache bash \ 
-    openssh-client \
-    wget \
-    nginx \
-    supervisor \
-    curl \
-    git \
-    php7-fpm \
-    php7-pdo \
-    php7-pdo_mysql \
-    php7-mysqlnd \
-    php7-mysqli \
-    php7-mcrypt \
-    php7-mbstring \
-    php7-ctype \
-    php7-zlib \
-    php7-gd \
-    php7-exif \
-    php7-intl \
-    php7-sqlite3 \
-    php7-pdo_pgsql \
-    php7-pgsql \
-    php7-xml \
-    php7-xsl \
-    php7-curl \
-    php7-openssl \
-    php7-iconv \
-    php7-json \
-    php7-phar \
-    php7-soap \
-    php7-dom \
-    php7-zip \
-    php7-session \
-    php7-redis \
-    php7-fileinfo \
-    python \
-    python-dev \
-    py2-pip \
-    augeas-dev \
-    openssl-dev \
-    ca-certificates \
-    dialog \
-    gcc \
-    musl-dev \
-    linux-headers \
-    libffi-dev &&\
+	    openssh-client \
+	    wget \
+	    nginx \
+	    supervisor \
+	    curl \
+	    git \
+	    php7-fpm \
+	    php7-pdo \
+	    php7-pdo_mysql \
+	    php7-mysqlnd \
+	    php7-mysqli \
+	    php7-mcrypt \
+	    php7-mbstring \
+	    php7-ctype \
+	    php7-zlib \
+	    php7-gd \
+	    php7-exif \
+	    php7-intl \
+	    php7-sqlite3 \
+	    php7-pdo_pgsql \
+	    php7-pgsql \
+	    php7-xml \
+	    php7-xsl \
+	    php7-curl \
+	    php7-openssl \
+	    php7-iconv \
+	    php7-json \
+	    php7-phar \
+	    php7-soap \
+	    php7-dom \
+	    php7-zip \
+	    php7-session \
+	    php7-redis \
+	    php7-fileinfo \
+	    python \
+	    python-dev \
+	    py2-pip \
+	    augeas-dev \
+	    openssl-dev \
+	    ca-certificates \
+	    dialog \
+	    gcc \
+	    musl-dev \
+	    linux-headers \
+	    libffi-dev &&\
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
