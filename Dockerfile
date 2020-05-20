@@ -85,40 +85,18 @@ ADD conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 ADD conf/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
 RUN ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 
-# tweak php-fpm config
-RUN sed -i \
-        -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" \
-        -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" \
-        -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" \
-        -e "s/variables_order = \"GPCS\"/variables_order = \"EGPCS\"/g" \
-        ${php_conf} && \
-    sed -i \
-        -e "s/;daemonize\s*=\s*yes/daemonize = no/g" \
-        -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
-        -e "s/pm.max_children = 4/pm.max_children = 4/g" \
-        -e "s/pm.start_servers = 2/pm.start_servers = 3/g" \
-        -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 2/g" \
-        -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" \
-        -e "s/pm.max_requests = 500/pm.max_requests = 200/g" \
-        -e "s/user = nobody/user = nginx/g" \
-        -e "s/group = nobody/group = nginx/g" \
-        -e "s/;listen.mode = 0660/listen.mode = 0666/g" \
-        -e "s/;listen.owner = nobody/listen.owner = nginx/g" \
-        -e "s/;listen.group = nobody/listen.group = nginx/g" \
-        -e "s/listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm.sock/g" \
-        -e "s/^;clear_env = no$/clear_env = no/" \
-        ${fpm_conf} && \
-    ln -sf /etc/php7/php.ini /etc/php7/conf.d/php.ini && \
-    find /etc/php7/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
-
+# php conf
+ADD conf/php.ini /etc/php7/conf.d/php.ini
+ADD conf/php-fpm.conf /etc/php7/php-fpm.d/www.conf
 
 # Add Scripts
+ADD scripts/entrypoint.sh /entrypoint.sh
 ADD scripts/start.sh /start.sh
 ADD scripts/pull /usr/bin/pull
 ADD scripts/push /usr/bin/push
 ADD scripts/letsencrypt-setup /usr/bin/letsencrypt-setup
 ADD scripts/letsencrypt-renew /usr/bin/letsencrypt-renew
-RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /usr/bin/letsencrypt-setup && chmod 755 /usr/bin/letsencrypt-renew && chmod 755 /start.sh
+RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /usr/bin/letsencrypt-setup && chmod 755 /usr/bin/letsencrypt-renew && chmod 755 /start.sh && chmod 755 /entrypoint.sh
 
 # copy in code
 ADD src/ /var/www/html/
@@ -126,7 +104,6 @@ ADD errors/ /var/www/errors
 
 VOLUME /var/www/html
 
-#EXPOSE 443 80
+EXPOSE 443 80
 
-#CMD ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
-CMD ["/start.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
