@@ -31,6 +31,7 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
 	    php7-pdo_pgsql \
 	    php7-pgsql \
 	    php7-xml \
+	    php7-simplexml \
 	    php7-xsl \
 	    php7-curl \
 	    php7-openssl \
