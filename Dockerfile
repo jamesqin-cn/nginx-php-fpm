@@ -5,8 +5,8 @@ MAINTAINER ngineered <support@ngineered.co.uk>
 ENV php_conf /etc/php7/php.ini 
 ENV fpm_conf /etc/php7/php-fpm.d/www.conf
 
-RUN echo "http://mirrors.aliyun.com/alpine/3.10/main/" > /etc/apk/repositories && \
-    echo "http://mirrors.aliyun.com/alpine/3.10/community/" >> /etc/apk/repositories && \
+RUN echo "http://mirrors.aliyun.com/alpine/v3.10/main/" > /etc/apk/repositories && \
+    echo "http://mirrors.aliyun.com/alpine/v3.10/community/" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache bash \ 
 	    openssh-client \
