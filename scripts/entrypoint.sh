@@ -15,5 +15,6 @@ sed -i s/{{PM_MIN_SPARE_SERVERS}}/${PM_MIN_SPARE_SERVERS:-1}/g /etc/php7/php-fpm
 sed -i s/{{PM_MAX_SPARE_SERVERS}}/${PM_MAX_SPARE_SERVERS:-2}/g /etc/php7/php-fpm.d/www.conf
 
 # parent container startup script
+chown -R nginx:nginx /data/wwwroot/html/wp-content
 mkdir -p /data/logs/
 /start.sh
