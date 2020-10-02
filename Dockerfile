@@ -8,7 +8,8 @@ ENV fpm_conf /etc/php7/php-fpm.d/www.conf
 RUN echo "http://mirrors.aliyun.com/alpine/v3.10/main/" > /etc/apk/repositories && \
     echo "http://mirrors.aliyun.com/alpine/v3.10/community/" >> /etc/apk/repositories && \
     apk update && \
-    apk add --no-cache bash \ 
+    apk add --no-cache bash \
+	    tzdata \
 	    openssh-client \
 	    wget \
 	    nginx \
@@ -55,6 +56,8 @@ RUN echo "http://mirrors.aliyun.com/alpine/v3.10/main/" > /etc/apk/repositories 
 	    musl-dev \
 	    linux-headers \
 	    libffi-dev &&\
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
